@@ -1,11 +1,12 @@
 {
   "name": "jctk-table-form",
-  "version": "0.1.8",
+  "version": "0.1.9",
   "main": "dist/jctk-table-form.common.js",
   "scripts": {
     "serve": "vue-cli-service serve",
     "build": "vue-cli-service build --target lib ./src/index.js",
-    "build-demo": "vue-cli-service build --target app --dest demo",
+    "build-demo-dev": "vue-cli-service build --mode development --target app --dest demo",
+    "build-demo-prod": "vue-cli-service build --mode production --target app --dest demo-prod",
     "lint": "vue-cli-service lint",
     "test:unit": "vue-cli-service test:unit",
     "test:e2e": "vue-cli-service test:e2e"

@@ -1,3 +1,3 @@
 module.exports = {
-    publicPath: "https://jchou24.github.io/Demos/TableForm/",
+    publicPath: process.env.NODE_ENV === "production" ? "https://jchou24.github.io/Demos/TableForm/" : "/",
 }
