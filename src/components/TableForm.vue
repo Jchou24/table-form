@@ -155,7 +155,7 @@
     import ShareVar from './ShareVar.js'
 
     export default {
-        name: "Form",
+        name: "TableForm",
         directives: {
             onClickaway: onClickaway,
         },

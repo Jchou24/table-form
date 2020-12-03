@@ -1,6 +1,6 @@
 {
-  "name": "TimeTracker",
-  "short_name": "TimeTracker",
+  "name": "TableForm",
+  "short_name": "TableForm",
   "icons": [
     {
       "src": "./img/icons/android-chrome-192x192.png",

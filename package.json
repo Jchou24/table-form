@@ -1,7 +1,7 @@
 {
-  "name": "table-form",
-  "version": "0.1.0",
-  "main": "dist/table-form.common.js",
+  "name": "jctk-table-form",
+  "version": "0.1.8",
+  "main": "dist/jctk-table-form.common.js",
   "scripts": {
     "serve": "vue-cli-service serve",
     "build": "vue-cli-service build --target lib ./src/index.js",

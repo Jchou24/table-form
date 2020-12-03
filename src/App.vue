@@ -13,7 +13,7 @@
                 <div>
                     <h1>TODO</h1>
 
-                    <Form v-model="todo" :options="options" />
+                    <TableForm v-model="todo" :options="options" />
                 </div>
 
                 <VueJsonPretty :data="todo" />
@@ -25,7 +25,7 @@
                 <div>
                     <h1>Done</h1>
                     
-                    <Form v-model="done" :options="options" :isReadonly="true"/>
+                    <TableForm v-model="done" :options="options" :isReadonly="true"/>
                 </div>
 
                 <VueJsonPretty :data="done" />
@@ -51,7 +51,7 @@
 
     import VueJsonPretty from 'vue-json-pretty'
 
-    import Form from '@/components/Form.vue'
+    import TableForm from '@/components/TableForm.vue'
     import FormSettings from '@/components/ShareVar.js'
 
     Vue.use(Notifications)
@@ -60,7 +60,7 @@
         name: "Demo",
         components:{
             VueJsonPretty,
-            Form
+            TableForm
         },
         data(){
             return {
