@@ -1,55 +1,121 @@
-    <功能>
-        <Resize>
-            1. [O] resize column head
-            2. [O] resize row head
-            3. [-] double click to max size of width/height
+# Table Form
 
-        <cell>
-            <General Function>
-                1. [O] is readonly
-                2. [O] Display Mode
-                3. [O] Edit Mode
-                4. [-] Alignment(center, left, right)
-            <Type>
-                1. [O] Double
-                2. [O] Single Select
-                3. [O] Free Text
-                    [O] text autocomplete
+A simple excel liked form on Vue2.
 
-        <Selection>
-            1. [O] cell select
-            2. [O] multiple cell select
-            3. [O] keyboard arrow button, change selected cell
-            4. [O] click row TH to select row
-            5. [O] show selected cell border after table Focus
-            6. [O] shift + left click to range set end selected cell
-            7. [O] shift + arrow button to add new range set end selected cell
+[Interactive Online Demo](https://jchou24.github.io/Demos/TableForm/index.html)
 
-        <dragable row>
-            1. [O] cross-table row drag
-            2. [O] Handle case: index of row in currentCell >= number of row in data
-            3. [O] drag new row when no row                
+[Quick Demo Video](https://jchou24.github.io/Demos/TableForm/Demo(2020-03-10).mp4)
 
-        <Copy Paste>
-            1. [O] copy selected cell(s)
-            2. [O] paste copied cell(s)
-            3. [-] copy value of selected cell by clicking/dragging corner
+# Quick Start
 
-        <right click to show helping menu>
-            1. [O] copy selected cell(s)
-            2. [-] paste selected cell(s)
-            3. [-] cut selected cell(s)
-            4. [O] delete selected cell(s)
+Initial library in main.js
 
-        <others>
-            1. [O] add new line
-            2. [O] allow no rows
-            3. [-] column sorting
-            4. [O] keyboard delete => set default value to selected cells
-            5. [O] keyboard shift+delete => remove row(s) of selected cells
-            6. [-] export csv format
+```js
+// main.js
+import 'jctk-table-form'
+import 'jctk-table-form/dist/jctk-table-form.css'
+```
 
-        <History>
-            1. [-] undo ctrl + z
-            2. [-] todo ctrl + shift + z
+Use component in template
+
+```html
+<TableForm v-model="todo" :options="options" />
+```
+
+Define data
+
+```js
+import FormSettings from 'jctk-table-form/src/components/ShareVar'
+
+let options = {
+    head:[{
+        title: "Learning Time",
+        cellType: FormSettings.cellTypes.number,
+        style:{
+            width: "80px",
+            "min-width": "80px",
+        },
+        options:{
+            step: 0.5
+        },
+    },{
+        title: "Language",
+        cellType: FormSettings.cellTypes.singleSelect,
+        options: [{
+            value: 0, name: '' },{
+            value: 1, name: 'Python' },{
+            value: 2, name: 'Javascript' },{
+            value: 3, name: 'Java' },{
+            value: 4, name: 'C#'
+            }],
+    },{
+        title: "Description",
+        cellType: FormSettings.cellTypes.textarea,
+        options:{
+            maxLength: 20
+        },
+    }]
+}
+
+let todo = [ 
+    [1.5, 1, "learning lession 3+4"],
+    [2.0, 2, "learning 'this'"]
+]
+```
+
+# Features
+
+    <Resize>
+        1. [O] resize column head
+        2. [O] resize row head
+        3. [-] double click to max size of width/height
+
+    <cell>
+        <General Function>
+            1. [O] is readonly
+            2. [O] Display Mode
+            3. [O] Edit Mode
+            4. [-] Alignment(center, left, right)
+        <Type>
+            1. [O] Double
+            2. [O] Single Select
+            3. [O] Free Text
+                [O] text autocomplete
+
+    <Selection>
+        1. [O] cell select
+        2. [O] multiple cell select
+        3. [O] keyboard arrow button, change selected cell
+        4. [O] click row TH to select row
+        5. [O] show selected cell border after table Focus
+        6. [O] shift + left click to range set end selected cell
+        7. [O] shift + arrow button to add new range set end selected cell
+
+    <dragable row>
+        1. [O] cross-table row drag
+        2. [O] Handle case: index of row in currentCell >= number of row in data
+        3. [O] drag new row when no row                
+
+    <Copy Paste>
+        1. [O] copy selected cell(s)
+        2. [O] paste copied cell(s)
+        3. [-] copy value of selected cell by clicking/dragging corner
+
+    <right click to show helping menu>
+        1. [O] copy selected cell(s)
+        2. [-] paste selected cell(s)
+        3. [-] cut selected cell(s)
+        4. [O] delete selected cell(s)
+
+    <others>
+        1. [O] add new line
+        2. [O] allow no rows
+        3. [-] column sorting
+        4. [O] keyboard delete => set default value to selected cells
+        5. [O] keyboard shift+delete => remove row(s) of selected cells
+        6. [-] export csv format
+
+    <History>
+        1. [-] undo ctrl + z
+        2. [-] todo ctrl + shift + z
 
