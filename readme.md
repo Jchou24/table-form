@@ -6,6 +6,12 @@ A simple excel liked form on Vue2.
 
 [Quick Demo Video](https://jchou24.github.io/Demos/TableForm/Demo(2020-03-10).mp4)
 
+# Installation
+
+```bash
+npm install -D jctk-table-form
+```
+
 # Quick Start
 
 Initial library in main.js
