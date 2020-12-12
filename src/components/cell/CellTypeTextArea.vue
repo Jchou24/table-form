@@ -11,6 +11,10 @@
             @keydown.enter.shift.exact="Newline"
             ref="editor"
         />
+
+        <div class="counter" v-if="maxLength">
+            {{data.length}} / {{maxLength}}
+        </div>
     </CellWrapper>
 </template>
 
@@ -42,15 +46,12 @@
                 // { 
                 //    maxLength: Number ,
                 //    isSuggestions: boolean
+                //    colKey: String
                 // }
                 required: true,
                 type: Object,
             },
             rowIndex:{
-                required: true,
-                type: Number,
-            },
-            colIndex:{
                 required: true,
                 type: Number,
             },
@@ -100,7 +101,7 @@
                             return
                         }
 
-                        let string = data[this.colIndex]
+                        let string = data[this.options.colKey]
                         if (!(string in candidates)) {
                             candidates[string] = 0
                         }
@@ -250,5 +251,23 @@
         background: none;
         border: none;
         resize: none;
+    }
+
+    .CellTypeTextArea .counter{
+        position: absolute;
+        top: 0px;
+        left: 0px;
+        margin-top: -26px;
+        margin-left: -1px;
+        z-index: 99;
+
+        padding: 3px;
+        padding-left: 10px;
+        padding-right: 10px;
+
+        background: aliceblue;
+        border: 2px solid cornflowerblue;
+        border-top-left-radius: 5px;
+        border-top-right-radius: 5px;
     }
 </style>

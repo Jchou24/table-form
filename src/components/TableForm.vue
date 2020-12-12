@@ -77,7 +77,7 @@
                             >
                             <tr class="list-group-item"
                                 :class="{'drag-disabled': isReadonly}"
-                                v-for="(rowArray, rowIndex) in data"
+                                v-for="(rowObject, rowIndex) in data"
                                 v-bind:index="rowIndex"
                                 v-bind:key="rowIndex"
                                 >
@@ -91,16 +91,15 @@
                                     @mouseup.native="StopMouseSelecting"
                                     >{{rowIndex + 1}}</ResizeableTH>
                                 <Cell
-                                    v-for="(cellValue, colIndex) in rowArray"
+                                    v-for="(headOptions, colIndex) in options.head"
                                     v-bind:index="colIndex"
                                     v-bind:key="colIndex"
-                                    v-model="data[rowIndex][colIndex]"
+                                    v-model="data[rowIndex][headOptions.relatedKey]"
                                     :class="GetCellClass(rowIndex, colIndex)"
                                     :options="options.head[colIndex].options"
                                     :isReadonly="isReadonly"
                                     :cellType="options.head[colIndex].cellType"
                                     :rowIndex="rowIndex"
-                                    :colIndex="colIndex"
                                     :formData="data"
 
                                     @input="$emit('input',data)"
@@ -183,6 +182,7 @@
 
                 //     head:{
                 //         style: Object, // { styleName: styleValue }
+                //         relatedKey: String,
                 //         title: String,
                 //         cellType: String,
                 //         option: Object,
@@ -194,7 +194,12 @@
                 required: false,
                 type: Boolean,
                 default: () => false,
-            },   
+            },
+            showSelection:{
+                required: false,
+                type: Boolean,
+                default: () => false,
+            }
         },
         data(){
             return {
@@ -231,27 +236,28 @@
                 get(){
                     return {
                         "table-focus": this.isTableFocus,
+                        "show-selection": this.isTableFocus || this.showSelection,
                     }
                 }
             }
         },
         methods:{
             GetInitData(){
-                let numberOfColumns = this.options.head.length
-                let data = []
-                let value = this.value.length > 0 ? this.value : [[]]
-                for( let rowArray of value ){
-                    if (rowArray.length != numberOfColumns ) {
-                        // Get row default value
-                        let tmpRowArray = ShareVar.GetDefaultRow(this.options)
-                        data.push( tmpRowArray )
-                    }else{
-                        data.push( rowArray )
-                    }
-                }
-
-                // console.log(data)
-                return data
+                // let numberOfColumns = this.options.head.length
+                // let data = []
+                // let value = this.value.length > 0 ? this.value : [{}]
+                // for( let rowArray of value ){
+                //     if (rowArray.length != numberOfColumns ) {
+                //         // Get row default value
+                //         let tmpRowArray = ShareVar.GetDefaultRow(this.options)
+                //         data.push( tmpRowArray )
+                //     }else{
+                //         data.push( rowArray )
+                //     }
+                // }
+                // return data
+                
+                return this.value.length > 0 ? this.value : [{}]
             },
             GetColStyle(styles){
                 return this.GetStyle(styles, this.defaultColStyle)
@@ -322,34 +328,7 @@
     $border-color: cornflowerblue;
     $background-color: aliceblue;
 
-    table.form-table{
-        td.isSelected{
-            background: $background-color;
-        }
-        
-        td.highlight-border-top{
-            border-top-width: $border-width;
-            border-top-style: $border-style;
-            border-top-color: $border-color;
-        }
-        td.highlight-border-bottom{
-            border-bottom-width: $border-width;
-            border-bottom-style: $border-style;
-            border-bottom-color: $border-color;
-        }
-        td.highlight-border-left{
-            border-left-width: $border-width;
-            border-left-style: $border-style;
-            border-left-color: $border-color;
-        }
-        td.highlight-border-right{
-            border-right-width: $border-width;
-            border-right-style: $border-style;
-            border-right-color: $border-color;
-        }
-    }
-
-    table.form-table.table-focus{
+    table.form-table.show-selection{
         td.isSelected{
             background: $background-color;
         }

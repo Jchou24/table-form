@@ -34,7 +34,6 @@
             ref="cellHandler"
 
             :rowIndex="rowIndex"
-            :colIndex="colIndex"
             />
     </td>
 </template>
@@ -74,10 +73,6 @@
                 }
             },
             rowIndex:{
-                required: true,
-                type: Number,
-            },
-            colIndex:{
                 required: true,
                 type: Number,
             },

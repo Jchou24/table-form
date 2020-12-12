@@ -13,7 +13,7 @@
                 <div>
                     <h1>TODO</h1>
 
-                    <TableForm v-model="todo" :options="options" />
+                    <TableForm v-model="todo" :options="options" showSelection />
                 </div>
 
                 <VueJsonPretty :data="todo" />
@@ -66,40 +66,55 @@
             return {
                 options:{
                     head:[{
-                        title: "Learning Time",
-                        cellType: FormSettings.cellTypes.number,
-                        style:{
-                            width: "80px",
-                            "min-width": "80px",
-                        },
-                        options:{
-                            step: 0.5
-                        },
-                    },{
-                        title: "Language",
-                        cellType: FormSettings.cellTypes.singleSelect,
-                        options: [{
-                            value: 0, name: '' },{
-                            value: 1, name: 'Python' },{
-                            value: 2, name: 'Javascript' },{
-                            value: 3, name: 'Java' },{
-                            value: 4, name: 'C#'
-                            }],
-                    },{
-                        title: "Description",
-                        cellType: FormSettings.cellTypes.textarea,
-                        options:{
-                            maxLength: 20
-                        },
+                            title: "Learning Time",
+                            relatedKey: "learningTime",
+                            cellType: FormSettings.cellTypes.number,
+                            style:{
+                                width: "80px",
+                                "min-width": "80px",
+                            },
+                            options:{
+                                step: 0.5
+                            },
+                        },{
+                            title: "Language",
+                            relatedKey: "language",
+                            cellType: FormSettings.cellTypes.singleSelect,
+                            options: [{
+                                value: 0, name: '' },{
+                                value: 1, name: 'Python' },{
+                                value: 2, name: 'Javascript' },{
+                                value: 3, name: 'Java' },{
+                                value: 4, name: 'C#'
+                                }],
+                        },{
+                            title: "Description",
+                            relatedKey: "description",
+                            cellType: FormSettings.cellTypes.textarea,
+                            options:{
+                                maxLength: 20
+                            },
                     }]
                 },
-                todo: [ 
-                    [1.5, 1, "learning lession 3+4"],
-                    [2.0, 2, "learning 'this'"]
+                todo: [{
+                        learningTime: 1.5,
+                        language: 1,
+                        description: "learning lession 3+4",
+                    },{
+                        learningTime: 2.0,
+                        language: 2,
+                        description: "learning 'this'",
+                    },
                 ],
-                done: [ 
-                    [3.0, 1, "learning lession 1+2"],
-                    [4.0, 2, "learning introduction"]
+                done: [{
+                        learningTime: 3.0,
+                        language: 1,
+                        description: "learning lession 1+2",
+                    },{
+                        learningTime: 4.0,
+                        language: 2,
+                        description: "learning introduction",
+                    },
                 ],
             }
         },
