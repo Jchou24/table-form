@@ -300,25 +300,55 @@ export default {
                 return
             }
             
+            let emitData = []
             that.selectedCells.forEach( (cell) => {
                 let cellType = that.options.head[cell.col].cellType
-                that.data[cell.row][cell.col] = ShareVar.defaultValue[cellType]()
+                let relatedKey = that.options.head[cell.col].relatedKey
+                let oldValue = JSON.parse( JSON.stringify(that.data[cell.row][relatedKey]) )
+                let newValue = ShareVar.defaultValue[cellType]()
+
+                if( oldValue != newValue ){
+                    emitData.push({
+                        rowIndex: cell.row,
+                        relatedKey: relatedKey,
+                        oldValue: oldValue,
+                        newValue: newValue, 
+                    })
+                }
+
+                that.data[cell.row][relatedKey] = newValue
             })
             this.data = Object.assign([], this.data, this.data)
+            if( emitData.length > 0 ){
+                this.$emit( ShareVar.cellEmptiedEmitName, emitData )
+            }
         },
         HandleDeleteSelectedRow(){
             let that = this
             if (that.isReadonly) {
                 return
             }
-            let rows = {}
-            that.selectedCells.forEach( (cell) => {
-                rows[cell.row] = ""
-            })
-            rows = Object.keys(rows).sort().reverse()
-            // console.log(rows)
+
+            let rows = Array.from( new Set( that.selectedCells.map( cell => cell.row ) ) )
+                .sort().reverse()
+            console.log(rows)
             rows.forEach( row => that.data.splice(row, 1) )
             this.data = Object.assign([], this.data, this.data)
+
+
+            let startRowIndex = Math.min(...rows)
+            let endRowIndex = Math.max(...rows)
+            let numberOfRowsMove = endRowIndex - startRowIndex
+            let moveRows = []
+            for( let row = startRowIndex; row < this.data.length; row++ ){
+                moveRows.push({
+                    oldIndex: row + numberOfRowsMove,
+                    newIndex: row,
+                })
+            }
+
+            this.$emit(ShareVar.removeRowsEmitName, rows.map( row => ({ oldIndex: row }) ))
+            this.$emit(ShareVar.moveRowEmitName, moveRows)
         },
         // ========================================================================
         // Helping Methods

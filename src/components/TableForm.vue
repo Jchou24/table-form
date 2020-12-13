@@ -74,6 +74,9 @@
                             :isShowTmpTR="isShowTmpTR" 
                             :isReadonly="isReadonly"
                             @input="$emit('input',data)" 
+                            @addRows="EmitEvent('addRowEmitName', $event)"
+                            @removeRows="EmitEvent('removeRowsEmitName', $event)"
+                            @moveRows="EmitEvent('moveRowEmitName', $event)"
                             >
                             <tr class="list-group-item"
                                 :class="{'drag-disabled': isReadonly}"
@@ -96,13 +99,14 @@
                                     v-bind:key="colIndex"
                                     v-model="data[rowIndex][headOptions.relatedKey]"
                                     :class="GetCellClass(rowIndex, colIndex)"
-                                    :options="options.head[colIndex].options"
+                                    :headSettings="options.head[colIndex]"
                                     :isReadonly="isReadonly"
                                     :cellType="options.head[colIndex].cellType"
                                     :rowIndex="rowIndex"
                                     :formData="data"
 
                                     @input="$emit('input',data)"
+                                    @modifyCells="EmitEvent('cellModifiedEmitName', $event)"
                                     @checkCellEditing="HandleCheckCellEditing"
 
                                     @mousedown.left.native.exact="HandleCellMouseDown(rowIndex, colIndex)"
@@ -122,7 +126,8 @@
                         <FormVirtualRow v-model="data" :options="options" 
                             @mouseup.native="StopMouseSelecting"
                             @dragenter.native="isShowTmpTR=true" 
-                            @dragleave.native="isShowTmpTR=false" 
+                            @dragleave.native="isShowTmpTR=false"
+                            @addRows="EmitEvent('addRowEmitName', $event)"
                             v-if="isTableFocus && !isReadonly"
                             />
                     </transition>
@@ -258,6 +263,9 @@
                 // return data
                 
                 return this.value.length > 0 ? this.value : [{}]
+            },
+            EmitEvent(emitName, event){
+                this.$emit( ShareVar[emitName], event )
             },
             GetColStyle(styles){
                 return this.GetStyle(styles, this.defaultColStyle)

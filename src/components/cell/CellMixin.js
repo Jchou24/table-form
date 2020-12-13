@@ -1,6 +1,7 @@
 'use strict'
 
 import CellWrapper from './CellWrapper.vue'
+import ShareVar from '../ShareVar.js'
 
 export default {
     components:{
@@ -19,6 +20,15 @@ export default {
         //     required: true,
         //     type: Boolean,
         // }
+        headSettings:{
+            required: true,
+            type: Object,
+            // title: "Learning Time",
+            // relatedKey: "learningTime",
+            // cellType: FormSettings.cellTypes.number,
+            // style:{},
+            // options:{}
+        },
         isReadonly:{
             required: true,
             type: Boolean,
@@ -26,16 +36,21 @@ export default {
         },
         formData:{
             required: true,
-            type: Array, // Array of Array
-        }
+            type: Array, // Array of Object
+        },
+        rowIndex:{
+            required: true,
+            type: Number,
+        },
     },
     watch:{
         value(new_value){
             this.data = new_value
-        }
+        },
     },
     data(){
         return {
+            oldValue: JSON.parse(JSON.stringify(this.value)),
             data: this.value,
         }
     },
@@ -47,6 +62,18 @@ export default {
                     this.Focus() // Focus() must be defined by each cellType
                 }
             })
+        },
+        HandleEmitCellModified(){
+            if( JSON.stringify(this.oldValue) == JSON.stringify(this.data) ){
+                return
+            }
+
+            this.$emit( ShareVar.cellModifiedEmitName, [{
+                rowIndex: this.rowIndex,
+                relatedKey: this.headSettings.relatedKey,
+                oldValue: JSON.parse(JSON.stringify(this.oldValue)),
+                newValue: JSON.parse(JSON.stringify(this.data)),
+            }])
         },
         Enter(){
             this.$nextTick(() => {

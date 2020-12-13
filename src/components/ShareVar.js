@@ -26,7 +26,13 @@ function GetDefaultRow(options){
         tmpRowArray[idx] = defaultValue[cellType]()
     }
 
-    return tmpRowArray
+    let tmpRow = {}
+    tmpRowArray.forEach((valueOfCell, colIndex) => {
+        let relatedKey = options.head[colIndex].relatedKey
+        tmpRow[relatedKey] = valueOfCell
+    })
+
+    return tmpRow
 }
 
 function GetCellRefName(rowIndex, colIndex){
@@ -38,6 +44,13 @@ export default {
     resizeTriggerBlockColClass: "resize-trigger-block-col",
     startResizeRowEmitName: "startResizeRow",
     startResizeColEmitName: "startResizeCol",
+    resizedRowEmitName: "resizedRow",
+    resizedColEmitName: "resizedCol",
+    addRowEmitName: "addRows",
+    removeRowsEmitName: "removeRows",
+    moveRowEmitName: "moveRows",
+    cellModifiedEmitName: "cellModified",
+    emptyCellEmitName: "emptyCells",
     cellTypes,
     valueTypes,
     defaultValue,

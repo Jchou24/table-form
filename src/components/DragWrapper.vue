@@ -6,6 +6,10 @@
         :disabled="isReadonly"
         @start="dragStart"
         @end="dragEnd"
+
+        @add="addRow"
+        @remove="removeRow"
+
         @update="$emit('input',data)"
         @unchoose="$emit('input',data)"
         >
@@ -19,6 +23,7 @@
 
 <script> 
     import draggable from 'vuedraggable'
+    import ShareVar from './ShareVar.js'
 
     export default {
         name: "DragWrapper",
@@ -68,10 +73,61 @@
             dragStart(){
                 this.drag = true
             },
-            dragEnd(){
+            dragEnd({ oldIndex, newIndex, from, to }){
                 this.drag = false
+                let isSameTable = from.firstChild == to.firstChild
+
+
+                if( isSameTable && oldIndex == newIndex ){
+                    return
+                }
+
+                if( isSameTable ){
+                    let emitData = [{ oldIndex, newIndex }]
+
+                    if( newIndex < oldIndex ){
+                        // move from bottom to top
+                        for( let idx = newIndex + 1; idx <= oldIndex; idx++ ){
+                            emitData.push({
+                                oldIndex: idx - 1,
+                                newIndex: idx,
+                            })
+                        }
+                    }else{
+                        // move from top to bottom
+                        for( let idx = oldIndex ; idx < newIndex; idx++ ){
+                            emitData.push({
+                                oldIndex: idx + 1,
+                                newIndex: idx,
+                            })
+                        }
+                    }
+                    this.$emit( ShareVar.moveRowEmitName, emitData )
+                }
                 this.$emit('input',this.data)
-            }
+            },
+            addRow({ oldIndex, newIndex }){
+                let emitData = []
+                for( let idx = newIndex + 1; idx < this.data.length; idx++ ){
+                    emitData.push({
+                        oldIndex: idx - 1,
+                        newIndex: idx,
+                    })
+                }
+                this.$emit( ShareVar.addRowEmitName, [{ newIndex }] )
+                this.$emit( ShareVar.moveRowEmitName, emitData )
+            },
+            removeRow({ oldIndex, newIndex }){
+                let emitData = []
+                for( let idx = oldIndex; idx < this.data.length; idx++ ){
+                    emitData.push({
+                        oldIndex: idx + 1,
+                        newIndex: idx,
+                    })
+                }
+                this.$emit( ShareVar.removeRowsEmitName, [{ oldIndex }] )
+                this.$emit( ShareVar.moveRowEmitName, emitData )
+            },
         },
     }
 </script>

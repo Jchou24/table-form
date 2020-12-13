@@ -13,7 +13,15 @@
                 <div>
                     <h1>TODO</h1>
 
-                    <TableForm v-model="todo" :options="options" showSelection />
+                    <TableForm v-model="todo"
+                        :options="options"
+                        showSelection 
+                        @addRows="RowsNotification('Todo: Add Row', $event)"
+                        @removeRows="RowsNotification('Todo: Remove Row', $event)"
+                        @moveRows="RowsNotification('Todo: Move Row', $event)"
+                        @emptyCells="RowsNotification('Todo: Empty Cell', $event)"
+                        @modifyCells="RowsNotification('Todo: Modify Cell', $event)"
+                        />
                 </div>
 
                 <VueJsonPretty :data="todo" />
@@ -25,7 +33,15 @@
                 <div>
                     <h1>Done</h1>
                     
-                    <TableForm v-model="done" :options="options" :isReadonly="true"/>
+                    <TableForm v-model="done" 
+                        :options="options"
+                        :isReadonly="false"
+                        @addRows="RowsNotification('Done: Add Row', $event)"
+                        @removeRows="RowsNotification('Done: Remove Row', $event)"
+                        @moveRows="RowsNotification('Done: Move Row', $event)"
+                        @emptyCells="RowsNotification('Done: Empty Cell', $event)"
+                        @modifyCells="RowsNotification('Done: Modify Cell', $event)"
+                        />
                 </div>
 
                 <VueJsonPretty :data="done" />
@@ -74,7 +90,9 @@
                                 "min-width": "80px",
                             },
                             options:{
-                                step: 0.5
+                                step: 0.5,
+                                min: 0,
+                                max: 8,
                             },
                         },{
                             title: "Language",
@@ -126,8 +144,19 @@
                     text: message,
                     type: 'success',
                 });
-            }
+            },
+            RowsNotification(title, event){
+                console.log(title)
+                console.table(event)
+                this.$notify({
+                    group: 'note',
+                    title: title,
+                    text: `#Row(s): ${event.length}`,
+                    type: 'success',
+                });
+            },
         },
+        
     }
 </script>
 

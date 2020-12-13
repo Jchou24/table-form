@@ -3,10 +3,11 @@
             <vs-input-number class="CellTypeNumber-editor"
                 v-model="data" 
                 :step="step" 
-                min="0"  
+                :min="options.min" 
+                :max="options.max"  
                 icon-inc="expand_less" 
                 icon-dec="expand_more"         
-                @input="$emit('input',parseFloat(data))"
+                @input="HandleEmitInput"
                 tabindex="-1"
 
                 ref="editor"
@@ -41,9 +42,16 @@
             },
             options: {
                 // ex
-                // { step: Float }
+                // { step: Float, min: Float, max: Float }
                 required: true,
                 type: Object,
+            },
+        },
+        watch:{
+            data(newValue, oldValue){
+                if( newValue != oldValue ){
+                    this.oldValue = newValue
+                }                
             },
         },
         computed:{
@@ -65,6 +73,19 @@
                         $(this.$refs.editor.$el).find("input").attr('step', this.step);
                     }
                 })
+            },
+            HandleEmitInput(aaa){
+                this.data = parseFloat(this.data)
+                if (this.options.min && this.data < this.options.min){
+                    this.data = this.options.min
+                }
+
+                if (this.options.max && this.data > this.options.max){
+                    this.data = this.options.max
+                }
+
+                this.$emit('input',this.data)
+                this.HandleEmitCellModified()
             },
         },
     }

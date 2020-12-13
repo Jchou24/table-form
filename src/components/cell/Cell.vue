@@ -2,10 +2,13 @@
     <td class="Cell" >
         <CellTypeSingleSelect 
             :isReadonly="isReadonly"
-            :options="options"
+            :options="headSettings.options"
+            :headSettings="headSettings"
             :formData="formData"
+            :rowIndex="rowIndex"
             v-model="data"
             @input="$emit('input',data)"
+            @modifyCells="HandleEmitCellModified"
             @checkCellEditing="HandleCheckCellEditing"
             v-if="isShowCellTypeSingleSelect"
             ref="cellHandler"
@@ -14,10 +17,13 @@
 
         <CellTypeNumber 
             :isReadonly="isReadonly"
-            :options="options"
+            :options="headSettings.options"
+            :headSettings="headSettings"
             :formData="formData"
+            :rowIndex="rowIndex"
             v-model="data"
             @input="$emit('input',data)"
+            @modifyCells="HandleEmitCellModified"
             @checkCellEditing="HandleCheckCellEditing"
             v-if="isShowCellTypeNumber"
             ref="cellHandler"
@@ -25,15 +31,16 @@
 
         <CellTypeTextArea
             :isReadonly="isReadonly"
-            :options="options"
+            :options="headSettings.options"
+            :headSettings="headSettings"
             :formData="formData"
+            :rowIndex="rowIndex"
             v-model="data"
             @input="$emit('input',data)"
+            @modifyCells="HandleEmitCellModified"
             @checkCellEditing="HandleCheckCellEditing"
             v-if="isShowCellTypeTextArea"
             ref="cellHandler"
-
-            :rowIndex="rowIndex"
             />
     </td>
 </template>
@@ -56,8 +63,14 @@
             value: {
                 required: true,
             },
-            options:{
-
+            headSettings:{
+                required: true,
+                type: Object,
+                // title: "Learning Time",
+                // relatedKey: "learningTime",
+                // cellType: FormSettings.cellTypes.number,
+                // style:{},
+                // options:{}
             },
             isReadonly:{
                 required: true,
@@ -78,7 +91,7 @@
             },
             formData:{
                 required: true,
-                type: Array, // Array of Array
+                type: Array, // Array of Object
             }
         },
         data(){
@@ -111,6 +124,10 @@
         methods:{
             HandleCheckCellEditing(isCellEditing){
                 this.$emit("checkCellEditing", isCellEditing)
+            },
+            HandleEmitCellModified(event){
+                this.$emit( ShareVar.cellModifiedEmitName, event )
+                // console.log( "Cell Emit Event", ShareVar.cellModifiedEmitName, event )
             },
             Enter(){
                 this.$nextTick( () => {

@@ -37,6 +37,7 @@
                 let tmpRowArray = ShareVar.GetDefaultRow(this.options)
                 this.data.push(tmpRowArray)
                 this.$emit('input', this.data)
+                this.$emit(ShareVar.addRowEmitName,[{ newIndex: this.data.length - 1 }])
             },
         },
     }

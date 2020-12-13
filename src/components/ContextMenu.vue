@@ -23,6 +23,7 @@
 
 <script>
     import { VueContext } from 'vue-context'
+    import ShareVar from './ShareVar.js'
 
     export default {
         name: "ContextMenu",
@@ -44,7 +45,7 @@
                 this.$emit('copySelectedCells', event)
             },
             removeRow(event){
-                this.$emit('removeRows', event)
+                this.$emit(ShareVar.removeRowsEmitName, event)
             }
         },
     }

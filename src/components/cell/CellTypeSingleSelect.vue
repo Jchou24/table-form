@@ -1,7 +1,7 @@
 <template>
     <CellWrapper class="CellTypeSingleSelect" :text="name" :isReadonly="isReadonly" @checkCellEditing="HandleCheckCellEditing" ref="cellWrapper">
         <multiselect class="CellTypeSingleSelect-editor"
-            v-model="selectorData"
+            v-model="selectionData"
             :options="options"
             label="name"
             :allow-empty="false"
@@ -9,7 +9,7 @@
             :show-labels="false"
             :isDisabled="true"
             placeholder="請選擇"
-            @input="$emit('input',selectorData.value)"
+            @input="HandleEmitInput"
             @close="HandleClose"
 
             ref="editor"
@@ -53,8 +53,15 @@
             let mapper = this.InitMapper()
             return {
                 mapper,
-                data: mapper[this.value],
-                selectorData: { name: this.GetName(this.value, mapper), value: this.value }
+                selectionData: this.GetSelectionObject(mapper, this.value),
+            }
+        },
+        watch:{
+            data(){
+                this.selectionData = this.GetSelectionObject(this.mapper, this.value)
+            },
+            selectionData(newValue, oldValue){
+                this.oldValue = newValue.value
             }
         },
         computed:{
@@ -95,6 +102,14 @@
                     this.$refs.cellWrapper.HandleClickaway()
                 })
             },
+            HandleEmitInput(event){
+                this.data = this.selectionData.value
+                this.$emit('input',this.selectionData.value)
+                this.HandleEmitCellModified()
+            },
+            GetSelectionObject(mapper, value){
+                return { name: this.GetName(this.value, mapper), value: value }
+            }
         },
     }
 </script>

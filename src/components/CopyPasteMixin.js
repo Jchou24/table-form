@@ -72,8 +72,9 @@ export default {
                 let newRow = []
                 for( let col = selectedStartCell.col; col <= selectedEndCell.col; col++ ){
                     // newRow.push(`${QUOTE}${that.data[row][col]}${QUOTE}`)    
-                    // newRow.push(`${that.data[row][col]}`)    
-                    newRow.push(that.data[row][col])
+                    // newRow.push(`${that.data[row][col]}`)
+                    let relatedKey = that.options.head[col].relatedKey
+                    newRow.push(that.data[row][relatedKey])
                 }
                 value.push(newRow)
             }
@@ -224,7 +225,6 @@ export default {
             return cellOffset
         },
         ReplaceTableData(array){
-            let isTransformOk = true
             let cellOffset = this.GetCellOffset(array)
 
             if (cellOffset == null) {
@@ -235,6 +235,7 @@ export default {
             let dimension = ArrayHandler.GetDim(array)
             let numberOfArrayRows = dimension[0]
             let numberOfArrayCols = dimension[1]
+            let currentNumberOfArrayRows = this.data.length
             // ===========================================================================
             // for recover losed rows
             let losedRows = this.currentCell.row + numberOfArrayRows - this.numberOfRows
@@ -246,12 +247,40 @@ export default {
             // replace araay value to data
             let dataRow = 0
             let dataCol = 0
+
+            let modifiedCells = []
             for( let row = 0; row < numberOfArrayRows; row++ ){
                 for( let col = 0; col < numberOfArrayCols; col++ ){
                     dataRow = row + this.currentCell.row
                     dataCol = col + cellOffset
-                    this.data[dataRow][dataCol] = array[row][col]
+                    let relatedKey = this.options.head[dataCol].relatedKey
+
+                    if (dataRow < currentNumberOfArrayRows) {
+                        modifiedCells.push({
+                            rowIndex: dataRow,
+                            relatedKey: relatedKey,
+                            oldValue: JSON.parse(JSON.stringify(this.data[dataRow][relatedKey])),
+                            newValue: JSON.parse(JSON.stringify(array[row][col])),
+                        })
+                    }                    
+                    
+                    this.data[dataRow][relatedKey] = array[row][col]
                 }
+            }
+            // ===========================================================================
+            // emit modified cell(s)            
+            if ( modifiedCells.length > 0 ) {
+                this.$emit( ShareVar.cellModifiedEmitName, modifiedCells )
+            }
+            // ===========================================================================
+            // emit adding row if exists
+            let newRow = []
+            for (let row = this.currentCell.row + 1; row < this.currentCell.row + numberOfArrayRows; row++) {
+                newRow.push({ newIndex: row })                
+            }
+
+            if( newRow.length > 0 ){
+                this.$emit( ShareVar.addRowEmitName, newRow )
             }
             // ===========================================================================
             // reselect cells

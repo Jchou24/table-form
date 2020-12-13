@@ -25,7 +25,7 @@ import 'jctk-table-form/dist/jctk-table-form.css'
 Use component in template
 
 ```html
-<TableForm v-model="todo" :options="options" />
+<TableForm v-model="data" :options="options" />
 ```
 
 Define data
@@ -35,39 +35,170 @@ import FormSettings from 'jctk-table-form/src/components/ShareVar'
 
 let options = {
     head:[{
-        title: "Learning Time",
-        cellType: FormSettings.cellTypes.number,
-        style:{
-            width: "80px",
-            "min-width": "80px",
-        },
-        options:{
-            step: 0.5
-        },
-    },{
-        title: "Language",
-        cellType: FormSettings.cellTypes.singleSelect,
-        options: [{
-            value: 0, name: '' },{
-            value: 1, name: 'Python' },{
-            value: 2, name: 'Javascript' },{
-            value: 3, name: 'Java' },{
-            value: 4, name: 'C#'
-            }],
-    },{
-        title: "Description",
-        cellType: FormSettings.cellTypes.textarea,
-        options:{
-            maxLength: 20
-        },
-    }]
+            title: "Learning Time",
+            relatedKey: "learningTime",
+            cellType: FormSettings.cellTypes.number,
+            style:{
+                width: "80px",
+                "min-width": "80px",
+            },
+            options:{
+                step: 0.5
+            },
+        },{
+            title: "Language",
+            relatedKey: "language",
+            cellType: FormSettings.cellTypes.singleSelect,
+            options: [{
+                value: 0, name: '' },{
+                value: 1, name: 'Python' },{
+                value: 2, name: 'Javascript' },{
+                value: 3, name: 'Java' },{
+                value: 4, name: 'C#'
+                }],
+        },{
+            title: "Description",
+            relatedKey: "description",
+            cellType: FormSettings.cellTypes.textarea,
+            options:{
+                maxLength: 20
+            },
+        }]
 }
 
-let todo = [ 
-    [1.5, 1, "learning lession 3+4"],
-    [2.0, 2, "learning 'this'"]
-]
+let data = [{
+        learningTime: 1.5,
+        language: 1,
+        description: "learning lession 3+4",
+    },{
+        learningTime: 2.0,
+        language: 2,
+        description: "learning 'this'",
+    },
+],
 ```
+
+# Props
+
+## v-model
+
+form data
+
+* `type`: Array of Object
+
+## options
+
+form options
+
+* `type`: Object
+
+## options.head
+
+form header options
+
+define column order of form
+
+* `type`: Array of Object(Head column options)
+
+## Head column options
+
+define column options
+
+* `type`: Object
+
+* `keys`:
+
+  * style: Object, // { styleName: styleValue }
+
+  * title: String, // display on head
+
+  * cellType: String, one of the following value
+
+    * FormSettings.cellTypes.number: "number",
+
+    * FormSettings.cellTypes.singleSelect: "singleSelect",
+
+    * FormSettings.cellTypes.textarea: "textarea",
+
+  * option: Object,
+
+    * FormSettings.cellTypes.number: `{ step, min, max }`
+
+    * FormSettings.cellTypes.singleSelect: `[{ name, value }]`
+
+    * FormSettings.cellTypes.textarea: `{ maxLength }`
+
+## isReadonly
+
+Set form readonly
+
+* `type`: Boolean
+
+## showSelection
+
+Force table to show selection
+
+* `type`: Boolean
+
+# Events
+
+* `@addRows`
+
+  * `emit timing`: Add new row by
+
+    * copy Paste to create new row
+
+    * add new row
+
+    * add new row from other table
+
+  * `emit data format`: [{ newIndex }]
+
+* `@removeRows`
+
+  * `emit timing`: Delete Selected row(s) by
+
+    * drag out row
+
+    * shift + delete selected row(s)
+
+  * `emit data format`: [{ oldIndex }]
+
+* `@moveRows`
+
+  * `emit timing`: Move row by
+
+    * Same Table
+
+      * move row
+
+      * shift + delete selected row(s)
+
+    * Cross Table
+
+      * drag out row
+
+      * add new row from other table
+
+  * `emit data format`: [{ oldIndex, newIndex }]
+
+* `@emptyCells`
+
+  * `emit timing`: Empty cell(s) by
+
+    * press delete to empty cell
+
+  * `emit data format`: [{ rowIndex, relatedKey, oldValue, newValue }]
+
+* `@modifyCells`
+
+  * `emit timing`: Modify cell(s) by
+
+    * Copy Paste to modify cell(s)
+
+    * direct modify cell
+
+  * `emit data format`: [{ rowIndex, relatedKey, oldValue, newValue }]
 
 # Features
 

@@ -46,14 +46,10 @@
                 // { 
                 //    maxLength: Number ,
                 //    isSuggestions: boolean
-                //    colKey: String
+                //    relatedKey: String
                 // }
                 required: true,
                 type: Object,
-            },
-            rowIndex:{
-                required: true,
-                type: Number,
             },
         },
         data(){
@@ -68,6 +64,10 @@
                     // limit text by text length
                     this.data = this.data.slice(0, this.maxLength)
                 }
+
+                if( this.data != oldValue ){
+                    this.oldValue = newValue
+                }                
             },
             suggestions(){
                 if( !this.autocompleteHandler ){
@@ -101,7 +101,7 @@
                             return
                         }
 
-                        let string = data[this.options.colKey]
+                        let string = data[this.headSettings.relatedKey]
                         if (!(string in candidates)) {
                             candidates[string] = 0
                         }
@@ -145,7 +145,7 @@
             },
             Newline() {
                 this.data = `${this.data}\n`
-                this.$emit('input',this.data)
+                this.HandleEmitInput()
             },
             HandleInput(evt){
                 if (evt && evt.inputType == "insertLineBreak") {
@@ -154,7 +154,11 @@
                 // console.log("Input", evt)
                 // console.log( this.data.length )
                 // console.log( this.data )
+                this.HandleEmitInput()
+            },
+            HandleEmitInput(){
                 this.$emit('input',this.data)
+                this.HandleEmitCellModified()
             },
             HandleCheckCellEditing(isCellEditing){
                 if (isCellEditing) {
