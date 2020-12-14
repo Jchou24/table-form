@@ -331,7 +331,7 @@ export default {
 
             let rows = Array.from( new Set( that.selectedCells.map( cell => cell.row ) ) )
                 .sort().reverse()
-            console.log(rows)
+            // console.log(rows)
             rows.forEach( row => that.data.splice(row, 1) )
             this.data = Object.assign([], this.data, this.data)
 

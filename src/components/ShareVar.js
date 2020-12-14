@@ -49,7 +49,7 @@ export default {
     addRowEmitName: "addRows",
     removeRowsEmitName: "removeRows",
     moveRowEmitName: "moveRows",
-    cellModifiedEmitName: "cellModified",
+    cellModifiedEmitName: "modifyCells",
     emptyCellEmitName: "emptyCells",
     cellTypes,
     valueTypes,
