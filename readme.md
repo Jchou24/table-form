@@ -162,7 +162,9 @@ Force table to show selection
 
     * shift + delete selected row(s)
 
-  * `emit data format`: [{ oldIndex }]
+  * `emit data format`: [{ oldIndex, value }]
+
+    * ***drag out row wil get [{ oldIndex, value: {} }]***
 
 * `@moveRows`
 

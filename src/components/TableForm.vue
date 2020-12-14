@@ -262,7 +262,7 @@
                 // }
                 // return data
                 
-                return this.value.length > 0 ? this.value : [{}]
+                return this.value.length > 0 ? this.value : [ ShareVar.GetDefaultRow(this.options) ]
             },
             EmitEvent(emitName, event){
                 this.$emit( ShareVar[emitName], event )

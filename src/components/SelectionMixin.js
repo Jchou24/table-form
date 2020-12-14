@@ -320,7 +320,7 @@ export default {
             })
             this.data = Object.assign([], this.data, this.data)
             if( emitData.length > 0 ){
-                this.$emit( ShareVar.cellEmptiedEmitName, emitData )
+                this.$emit( ShareVar.emptyCellEmitName, emitData )
             }
         },
         HandleDeleteSelectedRow(){
@@ -332,7 +332,9 @@ export default {
             let rows = Array.from( new Set( that.selectedCells.map( cell => cell.row ) ) )
                 .sort().reverse()
             // console.log(rows)
-            rows.forEach( row => that.data.splice(row, 1) )
+            let removedRows = []
+            rows.forEach( row => removedRows.push(...that.data.splice(row, 1)) )
+            removedRows.reverse()
             this.data = Object.assign([], this.data, this.data)
 
 
@@ -347,7 +349,7 @@ export default {
                 })
             }
 
-            this.$emit(ShareVar.removeRowsEmitName, rows.map( row => ({ oldIndex: row }) ))
+            this.$emit(ShareVar.removeRowsEmitName, rows.map( (row, idx) => ({ oldIndex: row, value: removedRows[idx] }) ))
             this.$emit(ShareVar.moveRowEmitName, moveRows)
         },
         // ========================================================================

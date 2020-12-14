@@ -125,7 +125,7 @@
                         newIndex: idx,
                     })
                 }
-                this.$emit( ShareVar.removeRowsEmitName, [{ oldIndex }] )
+                this.$emit( ShareVar.removeRowsEmitName, [{ oldIndex, value: {} }] )
                 this.$emit( ShareVar.moveRowEmitName, emitData )
             },
         },
