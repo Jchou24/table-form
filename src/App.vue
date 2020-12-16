@@ -113,6 +113,7 @@
                                 maxLength: 20,
                                 isSuggestions: true,
                                 throttle: 250,
+                                suggestions: [ "learning refactoring" ]
                             },
                     }]
                 },

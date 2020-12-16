@@ -43,7 +43,9 @@ let options = {
                 "min-width": "80px",
             },
             options:{
-                step: 0.5
+                step: 0.5,
+                min: 0,
+                max: 8,
             },
         },{
             title: "Language",
@@ -61,9 +63,12 @@ let options = {
             relatedKey: "description",
             cellType: FormSettings.cellTypes.textarea,
             options:{
-                maxLength: 20
+                maxLength: 20,
+                isSuggestions: true,
+                throttle: 250,
+                suggestions: [ "learning refactoring" ]
             },
-        }]
+    }]
 }
 
 let data = [{
@@ -126,7 +131,7 @@ define column options
 
     * FormSettings.cellTypes.singleSelect: `[{ name, value }]`
 
-    * FormSettings.cellTypes.textarea: `{ maxLength, isSuggestions, throttle }`
+    * FormSettings.cellTypes.textarea: `{ maxLength, isSuggestions, throttle, suggestions }`
 
 ## isReadonly
 

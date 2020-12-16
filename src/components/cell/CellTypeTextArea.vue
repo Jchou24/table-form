@@ -48,6 +48,7 @@
                 //    maxLength: Number ,
                 //    isSuggestions: boolean
                 //    throttle: Number,
+                //    suggestions: Array<string>
                 // }
                 required: true,
                 type: Object,
@@ -95,6 +96,11 @@
                     return this.options.isSuggestions || true
                 }
             },
+            defaultSuggestions:{
+                get(){
+                    return this.options.suggestions || []
+                }
+            },
             suggestions:{
                 get(){
                     // Array of string, used for text autocomplete
@@ -117,6 +123,11 @@
 
                     // get sorted suggestions by word count
                     let suggestions = Object.keys(candidates).sort(function(a,b){return candidates[a]-candidates[b]}).reverse()
+                    this.defaultSuggestions.forEach( words => {
+                        if (!suggestions.includes(words)) {
+                            suggestions.push(words)
+                        }                        
+                    })
                     return suggestions
                 }
             }
