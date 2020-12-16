@@ -110,7 +110,9 @@
                             relatedKey: "description",
                             cellType: FormSettings.cellTypes.textarea,
                             options:{
-                                maxLength: 20
+                                maxLength: 20,
+                                isSuggestions: true,
+                                throttle: 250,
                             },
                     }]
                 },

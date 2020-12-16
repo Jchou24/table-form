@@ -255,12 +255,14 @@ export default {
                     dataCol = col + cellOffset
                     let relatedKey = this.options.head[dataCol].relatedKey
 
-                    if (dataRow < currentNumberOfArrayRows) {
+                    let oldValue = JSON.parse(JSON.stringify(this.data[dataRow][relatedKey]))
+                    let newValue = JSON.parse(JSON.stringify(array[row][col]))
+                    if (dataRow < currentNumberOfArrayRows && oldValue !== newValue) {
                         modifiedCells.push({
                             rowIndex: dataRow,
                             relatedKey: relatedKey,
-                            oldValue: JSON.parse(JSON.stringify(this.data[dataRow][relatedKey])),
-                            newValue: JSON.parse(JSON.stringify(array[row][col])),
+                            oldValue: oldValue,
+                            newValue: newValue,
                         })
                     }                    
                     

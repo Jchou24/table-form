@@ -66,7 +66,7 @@
 
     .ResizeableTH{
         position: relative;
-        z-index:  98;
+        // z-index:  98;
     }
 
     .th-content{

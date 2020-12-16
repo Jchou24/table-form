@@ -1,5 +1,5 @@
 <template>
-    <div class="TaskDayForm">
+    <div class="TableForm">
         <table 
             class="form-table"
             :class="tableClass"
@@ -77,6 +77,7 @@
                             @addRows="EmitEvent('addRowEmitName', $event)"
                             @removeRows="EmitEvent('removeRowsEmitName', $event)"
                             @moveRows="EmitEvent('moveRowEmitName', $event)"
+                            v-if="data.length > 0"
                             >
                             <tr class="list-group-item"
                                 :class="{'drag-disabled': isReadonly}"
@@ -118,6 +119,21 @@
                                     />
                             </tr>
                         </DragWrapper>
+                        <tr v-else>
+                            <ResizeableTH 
+                                class="draggable-th"
+                                resize-direction="row" 
+                                :style="GetRowStyle({})" 
+                                :rowIndex="0"
+                                @startResizeRow="resizeCellScope.HandleStartResizeRow" 
+                                @click="HandleSelectRow(0)"
+                                @mouseup.native="StopMouseSelecting"
+                                >1</ResizeableTH>
+                            <td class="default-row-td" v-for=" ( option, idx ) in options.head" 
+                                :key="idx" 
+                                @click="HandleDefaultRowTdClick">
+                            </td>
+                        </tr>
                     </tbody>
                     <transition
                         enter-active-class="animated fadeInDown faster"
@@ -262,7 +278,8 @@
                 // }
                 // return data
                 
-                return this.value.length > 0 ? this.value : [ ShareVar.GetDefaultRow(this.options) ]
+                // return this.value.length > 0 ? this.value : [ ShareVar.GetDefaultRow(this.options) ]
+                return this.value.length > 0 ? this.value : []
             },
             EmitEvent(emitName, event){
                 this.$emit( ShareVar[emitName], event )
@@ -303,6 +320,12 @@
             HandleContextMenu(event){
                 this.$refs.menu.open(event)
                 this.HandleTableFocus()
+            },
+            HandleDefaultRowTdClick(){
+                let tmpRowArray = ShareVar.GetDefaultRow(this.options)
+                this.data.push(tmpRowArray)
+                this.$emit('input', this.data)
+                this.$emit(ShareVar.addRowEmitName,[{ newIndex: this.data.length - 1 }])
             },
         },
     }
@@ -408,7 +431,7 @@
 </style>
 
 <style lang="scss" scoped>
-    .TaskDayForm{
+    .TableForm{
 
         *::selection{
             background: unset;
@@ -421,6 +444,11 @@
         .form-table{
             thead, tbody{
                 background-color: whitesmoke;
+
+                td.default-row-td{
+                    background-color: white;
+                    cursor: pointer;
+                }
             }
         }
     }

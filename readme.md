@@ -126,7 +126,7 @@ define column options
 
     * FormSettings.cellTypes.singleSelect: `[{ name, value }]`
 
-    * FormSettings.cellTypes.textarea: `{ maxLength }`
+    * FormSettings.cellTypes.textarea: `{ maxLength, isSuggestions, throttle }`
 
 ## isReadonly
 
@@ -221,14 +221,15 @@ Force table to show selection
             3. [O] Free Text
                 [O] text autocomplete
 
-    <Selection>
-        1. [O] cell select
-        2. [O] multiple cell select
-        3. [O] keyboard arrow button, change selected cell
-        4. [O] click row TH to select row
-        5. [O] show selected cell border after table Focus
-        6. [O] shift + left click to range set end selected cell
-        7. [O] shift + arrow button to add new range set end selected cell
+    <Selection>+
+        1. [0] show selections when focus table 
+        2. [O] cell select
+        3. [O] multiple cell select
+        4. [O] keyboard arrow button, change selected cell
+        5. [O] click row TH to select row
+        6. [O] show selected cell border after table Focus
+        7. [O] shift + left click to range set end selected cell
+        8. [O] shift + arrow button to add new range set end selected cell
 
     <dragable row>
         1. [O] cross-table row drag

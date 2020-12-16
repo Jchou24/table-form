@@ -228,8 +228,10 @@ export default {
 
             for(let row = minRow; row <= maxRow; row++){
                 for(let col = minCol; col <= maxCol; col++){
-                    this.cellStatusArray[row][col].isSelected = true   
-                    this.PushselectedCells(row, col)
+                    try{
+                        this.cellStatusArray[row][col].isSelected = true   
+                        this.PushselectedCells(row, col)
+                    }catch{}
                 }
             }
             this.SetSelectedCellsBorder()
@@ -340,7 +342,7 @@ export default {
 
             let startRowIndex = Math.min(...rows)
             let endRowIndex = Math.max(...rows)
-            let numberOfRowsMove = endRowIndex - startRowIndex
+            let numberOfRowsMove = endRowIndex - startRowIndex + 1
             let moveRows = []
             for( let row = startRowIndex; row < this.data.length; row++ ){
                 moveRows.push({
@@ -350,7 +352,9 @@ export default {
             }
 
             this.$emit(ShareVar.removeRowsEmitName, rows.map( (row, idx) => ({ oldIndex: row, value: removedRows[idx] }) ))
-            this.$emit(ShareVar.moveRowEmitName, moveRows)
+            if (moveRows.length > 0) {
+                this.$emit(ShareVar.moveRowEmitName, moveRows)
+            }
         },
         // ========================================================================
         // Helping Methods

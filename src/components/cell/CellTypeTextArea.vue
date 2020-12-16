@@ -21,6 +21,7 @@
 <script>
     import Awesomplete from 'awesomplete/awesomplete.js'
     import 'awesomplete/awesomplete.css'
+    import throttle from 'lodash.throttle'
 
     import CellMixin from './CellMixin.js'
     import ShareVar from '../ShareVar.js'
@@ -46,7 +47,7 @@
                 // { 
                 //    maxLength: Number ,
                 //    isSuggestions: boolean
-                //    relatedKey: String
+                //    throttle: Number,
                 // }
                 required: true,
                 type: Object,
@@ -56,6 +57,7 @@
             return {
                 autocompleteHandler: null,
                 isLaunchAutocomplete: false,
+                ThrottleEmitCellModified: null,
             }
         },
         watch:{
@@ -81,6 +83,11 @@
             maxLength:{
                 get(){
                     return this.options.maxLength || 100
+                }
+            },
+            throttle:{
+                get(){
+                    return this.options.throttle || 0
                 }
             },
             isSuggestions:{
@@ -158,7 +165,13 @@
             },
             HandleEmitInput(){
                 this.$emit('input',this.data)
-                this.HandleEmitCellModified()
+
+                if (this.throttle) {
+                    this.ThrottleEmitCellModified()
+                    // this.ThrottleEmitCellModified()()
+                }else{
+                    this.HandleEmitCellModified()
+                }                
             },
             HandleCheckCellEditing(isCellEditing){
                 if (isCellEditing) {
@@ -199,6 +212,23 @@
                 })
             },
         },
+        mounted(){
+            let timer = null
+            let that = this
+            let throttleOldValue = ""
+            that.ThrottleEmitCellModified = throttle( function(){ 
+                that.oldValue = throttleOldValue
+                let emitResult = that.HandleEmitCellModified()
+                throttleOldValue = that.data
+                
+                clearTimeout(timer)
+                timer = setTimeout( () => {
+                    that.oldValue = throttleOldValue
+                    that.HandleEmitCellModified()
+                    throttleOldValue = that.data                 
+                }, that.throttle + 50 )
+            }, that.throttle )
+        }
     }
 </script>
 

@@ -64,7 +64,7 @@ export default {
             })
         },
         HandleEmitCellModified(){
-            if( JSON.stringify(this.oldValue) == JSON.stringify(this.data) ){
+            if( JSON.stringify(this.oldValue) === JSON.stringify(this.data) ){
                 return
             }
 
