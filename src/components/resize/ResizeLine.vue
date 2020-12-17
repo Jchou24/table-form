@@ -31,7 +31,7 @@
 <style lang="scss" scoped>
     .ResizeLine{
         position: absolute;
-        z-index:  101;
+        // z-index:  101;
         background: cornflowerblue;
     }
 

@@ -304,7 +304,7 @@
         left: 0px;
         margin-top: -26px;
         margin-left: -1px;
-        z-index: 99;
+        // z-index: 99;
 
         padding: 3px;
         padding-left: 10px;
