@@ -39,11 +39,13 @@
         top: 0;
         height: 100%;
         width: 5px;
+        border-radius: 10px;
     }
 
     .ResizeLineRow{
         left: 0;
         height: 5px;
         width: 100%;
+        border-radius: 10px;
     }
 </style>

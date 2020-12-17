@@ -13,7 +13,7 @@
                 <div>
                     <h1>TODO</h1>
 
-                    <TableForm v-model="todo"
+                    <TableForm class="t1" v-model="todo"
                         :options="options"
                         showSelection 
                         @addRows="RowsNotification('Todo: Add Row', $event)"
@@ -33,7 +33,7 @@
                 <div>
                     <h1>Done</h1>
                     
-                    <TableForm v-model="done" 
+                    <TableForm class="t2" v-model="done" 
                         :options="options"
                         :isReadonly="false"
                         @addRows="RowsNotification('Done: Add Row', $event)"
@@ -164,6 +164,16 @@
 </script>
 
 <style lang="scss">
+
+    .t1{
+        position: relative;
+        z-index: 1;
+    }
+
+    .t2{
+        position: relative;
+    }
+
     .vue-notification {
         padding: 10px;
         margin: 0 5px 5px;

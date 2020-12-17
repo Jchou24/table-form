@@ -7,14 +7,14 @@
             v-on-clickaway="HandleTableClickAway"
 
             @focus="HandleTableFocus"
-            @keydown.up.exact.prevent="HandleKeyboardArrow('up')"
-            @keydown.down.exact.prevent="HandleKeyboardArrow('down')"
-            @keydown.left.exact.prevent="HandleKeyboardArrow('left')"
-            @keydown.right.exact.prevent="HandleKeyboardArrow('right')"
-            @keydown.shift.up.exact.prevent="HandleKeyboardShiftArrow('up')"
-            @keydown.shift.down.exact.prevent="HandleKeyboardShiftArrow('down')"
-            @keydown.shift.left.exact.prevent="HandleKeyboardShiftArrow('left')"
-            @keydown.shift.right.exact.prevent="HandleKeyboardShiftArrow('right')"
+            @keydown.up.exact.self.prevent="HandleKeyboardArrow('up')"
+            @keydown.down.exact.self.prevent="HandleKeyboardArrow('down')"
+            @keydown.left.exact.self.prevent="HandleKeyboardArrow('left')"
+            @keydown.right.exact.self.prevent="HandleKeyboardArrow('right')"
+            @keydown.shift.up.exact.self.prevent="HandleKeyboardShiftArrow('up')"
+            @keydown.shift.down.exact.self.prevent="HandleKeyboardShiftArrow('down')"
+            @keydown.shift.left.exact.self.prevent="HandleKeyboardShiftArrow('left')"
+            @keydown.shift.right.exact.self.prevent="HandleKeyboardShiftArrow('right')"
             @keydown.enter.exact="HandleKeyboardEnter"
 
             @keyup.ctrl.67.exact="HandleCopy"
@@ -332,26 +332,58 @@
 </script>
 
 <style lang="scss">
+    @mixin vm-drop-shadow-1( $offset-x, $offset-y, $blur-radius, $shadow-color: #000000b3 ) {
+        -webkit-filter: drop-shadow($offset-x $offset-y $blur-radius $shadow-color);
+        filter: drop-shadow($offset-x $offset-y $blur-radius $shadow-color);
+    }
+
+    .TableForm{
+        @include vm-drop-shadow-1(5px, 5px, 5px, #c5c3c3);
+    }
+
     table.form-table td {
         font-size: 13px;
     }
     // ====================================
     // border
+
+    table.form-table {
+        border-spacing: 1px;
+        border-collapse: separate;
+    }
+
+    $table-border-radius: 10px;
+    $boder: 1px solid #e0e0e0;
     table.form-table th, 
     table.form-table td {
-        border: 1px solid grey;
+        border: $boder;
     }
 
     table.form-table.table-focus th, 
     table.form-table.table-focus td {
-        border: 1px solid grey;
+        border: $boder;
     }
+    
+    table.form-table{
+        thead tr:first-child {
+            th:first-child{
+                border-top-left-radius: $table-border-radius;
+            }
+            th:last-child{
+                border-top-right-radius: $table-border-radius;
+            }
+        }
 
-    table.form-table {
-        border-spacing: 0px;
-        border-collapse: collapse;
+        tbody tr:last-child{
+            th:first-child{
+                border-bottom-left-radius: $table-border-radius;
+            }
+
+            td:last-child{
+                border-bottom-right-radius: $table-border-radius;
+            }
+        }
     }
-
     // ====================================
     // selection
     $border-width: 2px;
@@ -395,8 +427,6 @@
     table.form-table {
         table-layout: fixed;
         margin: 0;
-        border-collapse: collapse;
-        border-spacing: 0;
     }
 
     .form-table thead {

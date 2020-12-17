@@ -46,11 +46,12 @@
 <style lang="scss" scoped>
     .FormVirtualRow{
         border-style: dotted;
-        border-color: grey;
+        border-color: #b6b5b5;
         color: grey;
         background: whitesmoke;
 
-        margin: 3px;
+        margin: 10px;
+        border-radius: 10px;
         height: 40px;
         cursor: pointer;
         display: flex;
