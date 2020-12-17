@@ -162,7 +162,17 @@
                 // console.log( "keydown", evt )
             },
             Newline() {
-                this.data = `${this.data}\n`
+                let cursorStartPosition = this.$refs.editor.selectionStart
+                let cursorEndPosition = this.$refs.editor.selectionEnd
+                let firstText = this.data.substring(0, cursorStartPosition)
+                let lastText = this.data.substring(cursorEndPosition, this.data.length)
+                let insert = "\n"
+                this.data = `${firstText}${insert}${lastText}`
+
+                setTimeout(() => {
+                    cursorStartPosition += insert.length;
+                    this.$refs.editor.selectionStart = this.$refs.editor.selectionEnd = cursorStartPosition;
+                }, 10);
                 this.HandleEmitInput()
             },
             HandleInput(evt){
