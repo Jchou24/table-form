@@ -276,8 +276,9 @@ export default {
             }
             // ===========================================================================
             // emit adding row if exists
+            // console.table({ "currentCell.row": this.currentCell.row, numberOfArrayRows })
             let newRow = []
-            for (let row = this.currentCell.row + 1; row < this.currentCell.row + numberOfArrayRows; row++) {
+            for (let row = currentNumberOfArrayRows; row < this.data.length; row++) {
                 newRow.push({ newIndex: row })                
             }
 
