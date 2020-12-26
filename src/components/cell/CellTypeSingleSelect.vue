@@ -119,6 +119,24 @@
         .multiselect__option--highlight{
             background: cornflowerblue;
         }
+
+        .multiselect__content-wrapper{
+            &::-webkit-scrollbar
+            {
+                width: 6px;
+            }
+        
+            &::-webkit-scrollbar-thumb
+            {
+                border-radius: 10px;
+                -webkit-box-shadow: inset 0 0 6px rgba(0,0,0,.3);
+                background-color: #d8d8d8;
+
+                &:hover{
+                    background-color: #ecebeb;
+                }
+            }
+        }
     }
 </style>
 

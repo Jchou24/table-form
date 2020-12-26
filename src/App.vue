@@ -103,7 +103,10 @@
                                 value: 1, name: 'Python' },{
                                 value: 2, name: 'Javascript' },{
                                 value: 3, name: 'Java' },{
-                                value: 4, name: 'C#'
+                                value: 4, name: 'C#' },{
+                                value: 5, name: 'C++' },{
+                                value: 6, name: 'Html' },{
+                                value: 7, name: 'CSS'
                                 }],
                         },{
                             title: "Description",
