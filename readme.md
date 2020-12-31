@@ -1,4 +1,4 @@
-# Table Form
+# [Table Form](https://github.com/Jchou24/table-form)
 
 A simple excel liked form on Vue2.
 
