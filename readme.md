@@ -2,9 +2,11 @@
 
 A simple excel liked form on Vue2.
 
+![img](./screen_shot.png)
+
 [Interactive Online Demo](https://jchou24.github.io/Demos/TableForm/index.html)
 
-[Quick Demo Video](https://jchou24.github.io/Demos/TableForm/Demo(2020-03-10).mp4)
+[Quick Demo Video](https://jchou24.github.io/Demos/TableForm/Demo(2020-01-01).mp4)
 
 # Installation
 
