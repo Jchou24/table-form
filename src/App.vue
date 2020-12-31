@@ -56,7 +56,9 @@
             </section>
 
             <notifications group="note" />
+            <GitHubCorner repo="https://github.com/Jchou24/table-form" position="left" />
         </div>
+
     </div>
 </template>
 
@@ -67,6 +69,7 @@
 
     import VueJsonPretty from 'vue-json-pretty'
 
+    import GitHubCorner from './GitHubCorner.vue'
     import TableForm from '@/components/TableForm.vue'
     import FormSettings from '@/components/ShareVar.js'
 
@@ -75,8 +78,9 @@
     export default {
         name: "Demo",
         components:{
+            GitHubCorner,
             VueJsonPretty,
-            TableForm
+            TableForm,
         },
         data(){
             return {
@@ -215,6 +219,7 @@
 <style lang="scss" scoped>
     .Demo{
         section{
+            margin-left: 80px;
             display: flex;
 
             div{
