@@ -1,11 +1,5 @@
 <template>
-    <div
-        :class="{ 'cursor-col-resize':isShowResizeLineCol }"
-        @mousemove="HandleMouseMove" 
-        @mouseup="HandleMouseUp"
-        @mouseleave="HandleMouseLeave"
-        >
-
+    <div :class="{ 'cursor-col-resize':isShowResizeLineCol }" >
         <slot 
             :HandleStartResizeCol="HandleStartResizeCol" 
             :HandleResizeColMove="HandleResizeColMove" 
@@ -23,6 +17,7 @@
     import ResizeLine from './ResizeLine.vue'
     import FormLighter from './FormLighter.vue'
 
+    import $ from 'jquery'
     import ShareVar from '../ShareVar.js'
 
     export default {
@@ -95,12 +90,12 @@
                 this.HandleResizeColMove(event)
                 this.HandleResizeRowMove(event)
                 
-            },            
-            HandleMouseLeave(event){
-                // console.log("HandleMouseLeave")
-                this.HandleMouseUp(event) 
-            }
+            },
         },
+        mounted(){
+            $(window).on("mousemove", this.HandleMouseMove)
+            $(window).on("mouseup", this.HandleMouseUp)
+        }
     }
 </script>
 
