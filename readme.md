@@ -211,10 +211,12 @@ Force table to show selection
 
 # Features
 
-    <Resize>
+    <Header>
         1. [O] resize column head
         2. [O] resize row head
         3. [-] double click to max size of width/height
+        4. [-] filter
+        5. [-] sort
 
     <cell>
         <General Function>
@@ -227,8 +229,10 @@ Force table to show selection
             2. [O] Single Select
             3. [O] Free Text
                 [O] text autocomplete
+            4. [-] CheckBox
+            5. [-] DateTime
 
-    <Selection>+
+    <Selection>
         1. [0] show selections when focus table 
         2. [O] cell select
         3. [O] multiple cell select
@@ -257,10 +261,11 @@ Force table to show selection
     <others>
         1. [O] add new line
         2. [O] allow no rows
-        3. [-] column sorting
-        4. [O] keyboard delete => set default value to selected cells
-        5. [O] keyboard shift+delete => remove row(s) of selected cells
-        6. [-] export csv format
+        3. [O] keyboard delete => set default value to selected cells
+        4. [O] keyboard shift+delete => remove row(s) of selected cells
+        5. [-] export csv format
+        6. [-] specific column read only
+        7. [-] add remove row button by config
 
     <History>
         1. [-] undo ctrl + z
